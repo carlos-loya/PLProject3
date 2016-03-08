@@ -108,21 +108,6 @@ var employee = function(p){
  customer.getCustomerText();
  */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Created by leo on 3/5/16.
  */
@@ -134,46 +119,68 @@ function myFunction() {
     var correct = true;
 
     while(correct){
-        var type = prompt("Create customer or employee? (c/e):");
+        var type = prompt("Create customer or employee? (c/e):"); 
+        //lower case 
+        type = type.toLowerCase();
         if(type === "c" || type === "e")
             correct = false;
     }
 
-
-
     //setters for the objects
 
-
-
     if (type === "c"){
+    	//create customer
         var a1 = Object.create(customer);
-        var firstName = prompt("Enter first name:");
-        a1.run('$firstName')(firstName);
-        var lastName = prompt("Enter last name:");
-        a1.run('$lastName')(lastName);
-        var email = prompt("Enter email address:");
-        a1.run('$email')(email);
-        var customerNumber = prompt("Cusomer number:");
+        //method to get the name and email
+        getNameEmail(a1);
+        var customerNumber = prompt("Customer number:");
+        //set the customer number
         a1.run('$customerNumber')(customerNumber);
+        //display the results
         a1.getCustomerText();
     }
     if (type === "e"){
+    	//create employee
         var a1 = Object.create(employee);
-        var firstName = prompt("Enter first name:");
-        a1.run('$firstName')(firstName);
-        var lastName = prompt("Enter last name:");
-        a1.run('$lastName')(lastName);
-        var email = prompt("Enter email address:");
-        a1.run('$email')(email);
-        var ssn = prompt("Enter security number:");
-        a1.run('$socialSec')(ssn);
+        //method to get the name and email
+        getNameEmail(a1);
+		var ssn;
+        var cont = true;
+        //while loop to check its a 10 character string and it includes the - at the position 3,6.
+         while(cont){
+         	ssn = prompt("Enter security number:");
+        	if(ssn.length == 10 && ssn.charAt(3) === '-' && ssn.charAt(6) === '-'){
+        		a1.run('$socialSec')(ssn);
+        		cont = false;
+        	}
+        }
         a1.getEmployeeText();
     }
 
 
 
    var again = prompt("Continue? (y/n):");
+   again = again.toLowerCase();
     if( again === "y"){
         myFunction();
     }
+}
+
+function getNameEmail(a1){
+	var firstName = '';
+	var lastName = '';
+	var email = '';
+	//whoile loops so the values arent empty
+	while(firstName === ''){
+		firstName = prompt("Enter first name:");
+	}
+        a1.run('$firstName')(firstName);
+    while(lastName === ''){
+    	lastName = prompt("Enter last name:");
+    }
+        a1.run('$lastName')(lastName);
+    while(email === '' || !email.includes('@')){
+        email = prompt("Enter email address:");
+    }
+        a1.run('$email')(email);
 }
